@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.springionic.domain.Categoria;
 import com.springionic.domain.Cidade;
+import com.springionic.domain.Cliente;
+import com.springionic.domain.Endereco;
 import com.springionic.domain.Estado;
 import com.springionic.domain.Produto;
+import com.springionic.domain.enums.TipoCliente;
 import com.springionic.repositories.CategoriaRepository;
 import com.springionic.repositories.CidadeRepository;
+import com.springionic.repositories.ClienteRepository;
+import com.springionic.repositories.EnderecoRepository;
 import com.springionic.repositories.EstadoRepository;
 import com.springionic.repositories.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class SpringionicApplication implements CommandLineRunner {
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringionicApplication.class, args);
@@ -57,6 +66,8 @@ public class SpringionicApplication implements CommandLineRunner {
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 		
+		//######## ESTADOS E CIDADES ######## 
+		
 		//criando a instância de estado
 		Estado est1 = new Estado(null, "Minas Gerais");
 		Estado est2 = new Estado(null, "São Paulo");
@@ -73,6 +84,53 @@ public class SpringionicApplication implements CommandLineRunner {
 		//salvando os estados e as cidades no banco
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		//######## CLIENTE, TELEFONES E ENDERECOS ######## 
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		
+		//adicionando os telefones
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+		
+		//instanciando os endereços
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 08", "Centro", "38777012", cli1, c2);
+		
+		//atribuindo os endereços ao cliente		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		//salvando cliente e endereços
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	}
 

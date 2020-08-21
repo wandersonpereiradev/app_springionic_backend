@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springionic.domain.enums.TipoCliente;
 
 @Entity
@@ -28,6 +29,7 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpj;
 	private Integer tipo; //'tipo' passado como inteiro para pegar apenas o código do TipoCliente
 	
+	@JsonManagedReference //para referenciar o endereço
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	

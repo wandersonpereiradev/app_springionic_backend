@@ -13,6 +13,7 @@ import com.springionic.domain.Cidade;
 import com.springionic.domain.Cliente;
 import com.springionic.domain.Endereco;
 import com.springionic.domain.Estado;
+import com.springionic.domain.ItemPedido;
 import com.springionic.domain.Pagamento;
 import com.springionic.domain.PagamentoComBoleto;
 import com.springionic.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.springionic.repositories.CidadeRepository;
 import com.springionic.repositories.ClienteRepository;
 import com.springionic.repositories.EnderecoRepository;
 import com.springionic.repositories.EstadoRepository;
+import com.springionic.repositories.ItemPedidoRepository;
 import com.springionic.repositories.PagamentoRepository;
 import com.springionic.repositories.PedidoRepository;
 import com.springionic.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class SpringionicApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringionicApplication.class, args);
@@ -138,7 +142,24 @@ public class SpringionicApplication implements CommandLineRunner {
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 		
 		
+		//######## CRIANDO ITENS ######## 
 		
+		//criando os itens
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		//associando os itens aos pedidos
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		//associando os protutos aos itens dos pedidos
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		//salvando os itens
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 		
 		
 		

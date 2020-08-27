@@ -1,6 +1,8 @@
 package com.springionic.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.springionic.domain.Categoria;
+import com.springionic.dto.CategoriaDTO;
 import com.springionic.services.CategoriaService;
 
 @RestController
@@ -53,6 +56,17 @@ public class CategoriaResource {
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		//criando uma lista com todas Categorias
+		List<Categoria> list = service.findAll();
+		
+		//percorrendo a lista e instanciando o DTO para cada elemento da lista | collect para transformar o resultado para o tipo List
+		List<CategoriaDTO> listDTO =  list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());		
+		
+		return ResponseEntity.ok().body(listDTO);
 	}
 
 }

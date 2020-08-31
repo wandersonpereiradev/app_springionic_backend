@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.springionic.domain.Categoria;
+import com.springionic.dto.CategoriaDTO;
 import com.springionic.repositories.CategoriaRepository;
 import com.springionic.services.exceptions.DataIntegrityException;
 import com.springionic.services.exceptions.ObjectNotFoundException;
@@ -58,6 +59,11 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	//método auxiliar para converter um objeto CategoriaDTO em um objeto Categoria
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 
 }

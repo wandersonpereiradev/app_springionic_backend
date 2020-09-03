@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.springionic.domain.Cliente;
-import com.springionic.domain.Cliente;
 import com.springionic.dto.ClienteDTO;
 import com.springionic.repositories.ClienteRepository;
 import com.springionic.services.exceptions.DataIntegrityException;
@@ -37,10 +36,13 @@ public class ClienteService {
 
 	//só é permitido atualização de nome e e-mail
 	public Cliente update(Cliente obj) {
-		//verificando se o obj não está vazio
+		
+		//instanciando o newObj à partir do BD | verificando se o obj não está vazio
 		Cliente newObj = findById(obj.getId());
+		
 		//método auxiliar para validar o newObj com base no obj que veio como argumento
 		updateData(newObj, obj);
+		
 		//o save será feito com os dados atualizados e validados
 		return repo.save(newObj);
 	}

@@ -34,11 +34,17 @@ public class CategoriaService {
 		return repo.save(obj);
 	}
 
-	public Categoria update(Categoria obj) {
-		//verificando se o obj não está vazio
-		findById(obj.getId());
-		return repo.save(obj);
-	}
+		public Categoria update(Categoria obj) {
+			
+			//instanciando o newObj à partir do BD | verificando se o obj não está vazio
+			Categoria newObj = findById(obj.getId());
+			
+			//método auxiliar para validar o newObj com base no obj que veio como argumento
+			updateData(newObj, obj);
+			
+			//o save será feito com os dados atualizados e validados
+			return repo.save(newObj);
+		}
 
 	public void delete(Integer id) {
 		//verifcando se o id existe
@@ -64,6 +70,11 @@ public class CategoriaService {
 	//método auxiliar para converter um objeto CategoriaDTO em um objeto Categoria
 	public Categoria fromDTO(CategoriaDTO objDto) {
 		return new Categoria(objDto.getId(), objDto.getNome());
+	}
+	
+	//private pq é um método auxiliar dessa classe apenas
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
 	}
 
 }

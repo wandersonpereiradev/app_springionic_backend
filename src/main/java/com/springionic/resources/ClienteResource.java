@@ -1,5 +1,6 @@
 package com.springionic.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.springionic.domain.Cliente;
 import com.springionic.dto.ClienteDTO;
+import com.springionic.dto.ClienteNewDTO;
 import com.springionic.services.ClienteService;
 
 @RestController
@@ -30,6 +33,21 @@ public class ClienteResource {
 	public ResponseEntity<Cliente> find(@PathVariable Integer id) {		
 		Cliente obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST) //mapeando o método como um POST | @RequestBody faz o Json ser convertido para o obj Java
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
+		//convertendo o objDto em um obj do tipo Cliente
+		Cliente obj = service.fromDTO(objDto);
+		
+		//salvando o objeto no BD
+		obj = service.insert(obj);
+		
+		//devolvendo o ID como argumento da URI
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		
+		//retornando a URI com o status HTTP Created
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)

@@ -123,7 +123,7 @@ public class DBService {
 
 		// ######## CLIENTE, TELEFONES E ENDERECOS ########
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "wanderson.p.ayres@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
 
 		// adicionando os telefones
 		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));

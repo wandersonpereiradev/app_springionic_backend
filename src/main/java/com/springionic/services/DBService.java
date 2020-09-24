@@ -20,6 +20,7 @@ import com.springionic.domain.PagamentoComCartao;
 import com.springionic.domain.Pedido;
 import com.springionic.domain.Produto;
 import com.springionic.domain.enums.EstadoPagamento;
+import com.springionic.domain.enums.Perfil;
 import com.springionic.domain.enums.TipoCliente;
 import com.springionic.repositories.CategoriaRepository;
 import com.springionic.repositories.CidadeRepository;
@@ -125,21 +126,28 @@ public class DBService {
 
 		// ######## CLIENTE, TELEFONES E ENDERECOS ########
 
+		//perfil cliente
 		Cliente cli1 = new Cliente(null, "Maria Silva", "wanderson.p.ayres@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
-
 		// adicionando os telefones
 		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
-
+		
+		//perfil admin
+		Cliente cli2 = new Cliente(null, "Ana Costa", "tomayresguitar@gmail.com", "90280920059", TipoCliente.PESSOAFISICA, pe.encode("123"));
+		cli2.getTelefones().addAll(Arrays.asList("55553323", "948716548"));
+		cli2.addPerfil(Perfil.ADMIN);
+		
 		// instanciando os endereços
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
 		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 08", "Centro", "38777012", cli1, c2);
+		Endereco e3 = new Endereco(null, "Avenida Martim Francisco", "2010", "Ap 212", "Centro", "90177012", cli2, c2);
 
 		// atribuindo os endereços ao cliente
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
 
 		// salvando cliente e endereços
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 
 		// ######## PEDIDO E PAGAMENTO ########
 
